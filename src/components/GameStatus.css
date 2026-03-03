@@ -1,0 +1,100 @@
+.game-status {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.game-status__title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.game-status__title span {
+  opacity: 0.4;
+  font-weight: 400;
+}
+
+.game-status__phase {
+  font-size: 0.95rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+.game-status__phase--idle {
+  background: rgba(108, 138, 255, 0.1);
+  color: var(--accent);
+}
+
+.game-status__phase--playing {
+  background: rgba(76, 175, 80, 0.1);
+  color: var(--success);
+}
+
+.game-status__phase--won {
+  background: rgba(76, 175, 80, 0.15);
+  color: var(--success);
+  animation: won-glow 2s ease-in-out infinite;
+}
+
+.game-status__phase--stuck {
+  background: rgba(239, 83, 80, 0.12);
+  color: var(--danger);
+}
+
+.game-status__progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.game-status__progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.game-status__progress-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-elevated);
+  overflow: hidden;
+}
+
+.game-status__progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+  transition: width 300ms ease;
+}
+
+.game-status__progress-fill--won {
+  background: var(--success);
+}
+
+.game-status__rules {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.game-status__rules p {
+  margin-bottom: 0.3rem;
+}
+
+.game-status__warning {
+  color: var(--warning);
+  opacity: 0.85;
+}
+
+@keyframes won-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+  }
+}

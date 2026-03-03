@@ -1,0 +1,46 @@
+.size-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.size-selector__label {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.size-selector__options {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.size-selector__btn {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: var(--radius);
+  background: var(--bg-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+}
+
+.size-selector__btn:hover {
+  background: var(--bg-elevated);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.size-selector__btn--active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.size-selector__btn--active:hover {
+  background: var(--accent);
+  filter: brightness(1.15);
+}

@@ -1,0 +1,46 @@
+.controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.controls__btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-surface);
+}
+
+.controls__btn:hover:not(:disabled) {
+  background: var(--bg-elevated);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.controls__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.controls__btn--hint {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.controls__btn--hint-active {
+  background: rgba(255, 152, 0, 0.15);
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.controls__btn--reset {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.controls__btn--reset:hover:not(:disabled) {
+  background: rgba(239, 83, 80, 0.1);
+}

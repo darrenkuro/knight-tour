@@ -1,0 +1,114 @@
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  position: relative;
+  user-select: none;
+  padding: 8%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Base colors ── */
+.square--light {
+  background: var(--sq-light);
+}
+
+.square--dark {
+  background: var(--sq-dark);
+}
+
+/* ── Visited ── */
+.square.square--visited.square--light {
+  background: var(--sq-visited-light);
+}
+
+.square.square--visited.square--dark {
+  background: var(--sq-visited-dark);
+}
+
+/* ── Current (knight) ── */
+.square.square--current {
+  background: var(--sq-current);
+}
+
+/* ── Valid move ── */
+.square.square--valid {
+  cursor: pointer;
+  background: var(--sq-valid-highlight);
+}
+
+.square.square--valid:hover {
+  filter: brightness(1.15);
+}
+
+/* ── Hint (overrides valid) ── */
+.square.square--hint {
+  background: var(--sq-hint-highlight);
+}
+
+/* ── Idle (pre-placement) ── */
+.square--idle {
+  cursor: pointer;
+}
+
+.square--idle:hover {
+  filter: brightness(1.1);
+}
+
+/* ── Unsolvable start (odd boards, minority color) ── */
+.square--unsolvable {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ── Knight SVG ── */
+.square__knight {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+  animation: knight-land 250ms ease-out;
+}
+
+/* ── Move number badges ── */
+.square__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(16px, 65%, 40px);
+  height: clamp(16px, 65%, 40px);
+  border-radius: 50%;
+  background: var(--num-bg);
+  color: var(--num-color);
+  font-size: clamp(0.5rem, calc(2.2vmin / var(--board-size) * 4), 0.9rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  opacity: 0.65;
+  backdrop-filter: blur(2px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.square__number--recent {
+  opacity: 1;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* ── Knight landing animation (on the SVG only, not the cell) ── */
+@keyframes knight-land {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.3;
+  }
+  60% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
