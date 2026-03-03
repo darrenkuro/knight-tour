@@ -1,4 +1,4 @@
-import { kv } from "@vercel/kv";
+import { Redis } from "@upstash/redis";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
 type LeaderboardEntry = {
@@ -7,14 +7,20 @@ type LeaderboardEntry = {
   date: string;
 };
 
+const redis = Redis.fromEnv();
+
 const VALID_SIZES = [5, 6, 7, 8, 9, 10, 11, 12];
 const MAX_ENTRIES = 10;
 
 const kvKey = (size: number) => `leaderboard:${size}`;
 
 const getTopEntries = async (size: number): Promise<LeaderboardEntry[]> => {
-  const raw = await kv.zrange<string[]>(kvKey(size), 0, MAX_ENTRIES - 1);
-  return raw.map((entry) => JSON.parse(entry) as LeaderboardEntry);
+  const raw = await redis.zrange<string[]>(kvKey(size), 0, MAX_ENTRIES - 1);
+  return raw.map((entry) =>
+    typeof entry === "string"
+      ? (JSON.parse(entry) as LeaderboardEntry)
+      : (entry as unknown as LeaderboardEntry),
+  );
 };
 
 export default async (req: VercelRequest, res: VercelResponse) => {
@@ -62,8 +68,7 @@ export default async (req: VercelRequest, res: VercelResponse) => {
       date: new Date().toISOString(),
     };
 
-    // Use JSON string as member, time as score for sorting
-    await kv.zadd(kvKey(size), { score: time, member: JSON.stringify(entry) });
+    await redis.zadd(kvKey(size), { score: time, member: JSON.stringify(entry) });
 
     const entries = await getTopEntries(size);
     return res.status(200).json(entries);

@@ -12,6 +12,7 @@ export const useTimer = () => {
     }
     if (startTimeRef.current !== null) {
       setElapsed(Date.now() - startTimeRef.current);
+      startTimeRef.current = null;
     }
   }, []);
 

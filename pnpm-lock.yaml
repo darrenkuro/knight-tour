@@ -8,9 +8,9 @@ importers:
 
   .:
     dependencies:
-      '@vercel/kv':
-        specifier: ^3.0.0
-        version: 3.0.0
+      '@upstash/redis':
+        specifier: ^1.36.3
+        version: 1.36.3
       react:
         specifier: ^19.0.0
         version: 19.2.4
@@ -687,11 +687,6 @@ packages:
 
   '@vercel/error-utils@2.0.3':
     resolution: {integrity: sha512-CqC01WZxbLUxoiVdh9B/poPbNpY9U+tO1N9oWHwTl5YAZxcqXmmWJ8KNMFItJCUUWdY3J3xv8LvAuQv2KZ5YdQ==}
-
-  '@vercel/kv@3.0.0':
-    resolution: {integrity: sha512-pKT8fRnfyYk2MgvyB6fn6ipJPCdfZwiKDdw7vB+HL50rjboEBHDVBEcnwfkEpVSp2AjNtoaOUH7zG+bVC/rvSg==}
-    engines: {node: '>=14.6'}
-    deprecated: 'Vercel KV is deprecated. If you had an existing KV store, it should have moved to Upstash Redis which you will see under Vercel Integrations. For new projects, install a Redis integration from Vercel Marketplace: https://vercel.com/marketplace?category=storage&search=redis'
 
   '@vercel/nft@1.1.1':
     resolution: {integrity: sha512-mKMGa7CEUcXU75474kOeqHbtvK1kAcu4wiahhmlUenB5JbTQB8wVlDI8CyHR3rpGo0qlzoRWqcDzI41FUoBJCA==}
@@ -1741,10 +1736,6 @@ snapshots:
       '@vercel/python-analysis': 0.8.1
 
   '@vercel/error-utils@2.0.3': {}
-
-  '@vercel/kv@3.0.0':
-    dependencies:
-      '@upstash/redis': 1.36.3
 
   '@vercel/nft@1.1.1(rollup@4.59.0)':
     dependencies:

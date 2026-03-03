@@ -60,7 +60,8 @@ export const App = () => {
       timer.stop();
       if (!isTutorial) setShowWinModal(true);
     }
-  }, [state.phase, timer]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.phase]);
 
   return (
     <div className="app">
