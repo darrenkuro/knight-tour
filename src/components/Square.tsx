@@ -33,7 +33,6 @@ export const Square = ({
     state === "valid" && "square--valid",
     state === "hint" && "square--valid square--hint",
     state === "empty" && "square--idle",
-    state === "unsolvable" && "square--unsolvable",
   ]
     .filter(Boolean)
     .join(" ");

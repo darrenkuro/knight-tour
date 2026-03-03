@@ -20,14 +20,17 @@ type Action =
   | { type: "RESET" }
   | { type: "TOGGLE_HINT" };
 
-const createInitialState = (size: BoardSize): GameState => ({
+const createInitialState = (
+  size: BoardSize,
+  hintEnabled = false,
+): GameState => ({
   boardSize: size,
   phase: "idle",
   visited: Array.from<boolean>({ length: size * size }).fill(false),
   moveHistory: [],
   moveCount: 0,
   currentIndex: null,
-  hintEnabled: false,
+  hintEnabled,
 });
 
 const toPos = (index: number, size: number): Position => ({
@@ -77,7 +80,7 @@ const rebuildFromHistory = (
 const reducer = (state: GameState, action: Action): GameState => {
   switch (action.type) {
     case "SET_SIZE":
-      return createInitialState(action.size);
+      return createInitialState(action.size, state.hintEnabled);
 
     case "PLACE_KNIGHT": {
       const visited = [...state.visited];
@@ -193,8 +196,15 @@ const isUnsolvableStart = (index: number, size: number): boolean => {
   return !isLight;
 };
 
-export const useKnightTour = () => {
-  const [state, dispatch] = useReducer(reducer, 8 as BoardSize, createInitialState);
+type UseKnightTourOptions = {
+  initialHintEnabled?: boolean;
+};
+
+export const useKnightTour = ({ initialHintEnabled = false }: UseKnightTourOptions = {}) => {
+  const [state, dispatch] = useReducer(
+    reducer,
+    createInitialState(8 as BoardSize, initialHintEnabled),
+  );
 
   const validMoves = useMemo(() => {
     if (state.currentIndex === null || state.phase !== "playing") return [];

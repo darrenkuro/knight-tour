@@ -59,12 +59,6 @@
   filter: brightness(1.1);
 }
 
-/* ── Unsolvable start (odd boards, minority color) ── */
-.square--unsolvable {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
-
 /* ── Knight SVG ── */
 .square__knight {
   width: 100%;

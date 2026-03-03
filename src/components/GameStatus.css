@@ -43,6 +43,14 @@
   color: var(--danger);
 }
 
+.game-status__timer {
+  font-size: 1.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
 .game-status__progress {
   display: flex;
   flex-direction: column;
@@ -82,11 +90,6 @@
 
 .game-status__rules p {
   margin-bottom: 0.3rem;
-}
-
-.game-status__warning {
-  color: var(--warning);
-  opacity: 0.85;
 }
 
 @keyframes won-glow {

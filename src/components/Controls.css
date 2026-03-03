@@ -25,17 +25,6 @@
   cursor: not-allowed;
 }
 
-.controls__btn--hint {
-  border-color: var(--warning);
-  color: var(--warning);
-}
-
-.controls__btn--hint-active {
-  background: rgba(255, 152, 0, 0.15);
-  border-color: var(--warning);
-  color: var(--warning);
-}
-
 .controls__btn--reset {
   border-color: var(--danger);
   color: var(--danger);

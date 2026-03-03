@@ -1,0 +1,115 @@
+.win-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.win-modal {
+  background: var(--bg-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 380px;
+  width: 100%;
+  position: relative;
+  animation: modal-enter 250ms ease-out;
+}
+
+.win-modal__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  font-size: 1.4rem;
+  color: var(--text-dim);
+  line-height: 1;
+  padding: 0.25rem;
+}
+
+.win-modal__close:hover {
+  color: var(--text);
+}
+
+.win-modal__title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--success);
+  margin-bottom: 0.5rem;
+}
+
+.win-modal__time {
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+}
+
+.win-modal__board {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 1.5rem;
+}
+
+.win-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.win-modal__input {
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.win-modal__input:focus {
+  border-color: var(--accent);
+}
+
+.win-modal__input::placeholder {
+  color: var(--text-dim);
+}
+
+.win-modal__submit {
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.win-modal__submit:hover:not(:disabled) {
+  background: #5a78ee;
+  transform: translateY(-1px);
+}
+
+.win-modal__submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

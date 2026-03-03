@@ -16,6 +16,12 @@ export type GameState = {
   hintEnabled: boolean;
 };
 
+export type LeaderboardEntry = {
+  name: string;
+  time: number;
+  date: string;
+};
+
 export type BoardTheme = {
   id: string;
   name: string;

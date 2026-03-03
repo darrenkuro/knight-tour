@@ -7,7 +7,6 @@ type BoardProps = {
   validMoves: number[];
   hintIndex: number | null;
   moveNumber: Map<number, number>;
-  unsolvableStarts: Set<number>;
   theme: BoardTheme;
   onSquareClick: (index: number) => void;
 };
@@ -17,7 +16,6 @@ export const Board = ({
   validMoves,
   hintIndex,
   moveNumber,
-  unsolvableStarts,
   theme,
   onSquareClick,
 }: BoardProps) => {
@@ -29,7 +27,6 @@ export const Board = ({
     if (index === hintIndex && validSet.has(index)) return "hint";
     if (validSet.has(index)) return "valid";
     if (state.visited[index]) return "visited";
-    if (unsolvableStarts.has(index)) return "unsolvable";
     return "empty";
   };
 
