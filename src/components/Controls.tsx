@@ -4,6 +4,7 @@ import "./Controls.css";
 type ControlsProps = {
   phase: GamePhase;
   canUndo: boolean;
+  timerActive: boolean;
   onUndo: () => void;
   onReset: () => void;
   onQuit: () => void;
@@ -12,11 +13,12 @@ type ControlsProps = {
 export const Controls = ({
   phase,
   canUndo,
+  timerActive,
   onUndo,
   onReset,
   onQuit,
 }: ControlsProps) => {
-  const inGame = phase !== "idle";
+  const hasProgress = phase !== "idle" || timerActive;
 
   return (
     <div className="controls">
@@ -30,14 +32,14 @@ export const Controls = ({
       <button
         className="controls__btn controls__btn--reset"
         onClick={onReset}
-        disabled={!inGame}
+        disabled={!hasProgress}
       >
         Reset
       </button>
       <button
         className="controls__btn controls__btn--quit"
         onClick={onQuit}
-        disabled={!inGame}
+        disabled={!hasProgress}
       >
         Quit
       </button>

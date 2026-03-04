@@ -17,6 +17,7 @@ const phaseMessages: Record<GamePhase, string> = {
 export const GameStatus = ({ state, elapsed }: GameStatusProps) => {
   const total = state.boardSize * state.boardSize;
   const pct = total > 0 ? (state.moveCount / total) * 100 : 0;
+  const showTimer = elapsed !== null && elapsed > 0;
 
   return (
     <div className="game-status">
@@ -28,29 +29,28 @@ export const GameStatus = ({ state, elapsed }: GameStatusProps) => {
         {phaseMessages[state.phase]}
       </div>
 
-      {state.phase !== "idle" && (
-        <>
-          {elapsed !== null && (
-            <div className="game-status__timer">{formatTime(elapsed)}</div>
-          )}
-          <div className="game-status__progress">
-            <div className="game-status__progress-label">
-              <span>Progress</span>
-              <span>
-                {state.moveCount} / {total}
-              </span>
-            </div>
-            <div className="game-status__progress-bar">
-              <div
-                className={`game-status__progress-fill${state.phase === "won" ? " game-status__progress-fill--won" : ""}`}
-                style={{ width: `${pct}%` }}
-              />
-            </div>
-          </div>
-        </>
+      {showTimer && (
+        <div className="game-status__timer">{formatTime(elapsed)}</div>
       )}
 
-      {state.phase === "idle" && (
+      {state.phase !== "idle" && (
+        <div className="game-status__progress">
+          <div className="game-status__progress-label">
+            <span>Progress</span>
+            <span>
+              {state.moveCount} / {total}
+            </span>
+          </div>
+          <div className="game-status__progress-bar">
+            <div
+              className={`game-status__progress-fill${state.phase === "won" ? " game-status__progress-fill--won" : ""}`}
+              style={{ width: `${pct}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {state.phase === "idle" && !showTimer && (
         <div className="game-status__rules">
           <p>Visit every square on the board exactly once.</p>
           <p>The knight moves in an L-shape: two squares in one direction and one square perpendicular.</p>

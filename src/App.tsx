@@ -82,6 +82,7 @@ export const App = () => {
         <Controls
           phase={state.phase}
           canUndo={state.moveHistory.length > 0}
+          timerActive={timer.elapsed > 0}
           onUndo={undo}
           onReset={handleReset}
           onQuit={handleQuit}
