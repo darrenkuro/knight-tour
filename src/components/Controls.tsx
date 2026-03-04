@@ -25,14 +25,14 @@ export const Controls = ({
       <button
         className="controls__btn"
         onClick={onUndo}
-        disabled={!canUndo}
+        disabled={!canUndo || phase === "won"}
       >
         Undo
       </button>
       <button
         className="controls__btn controls__btn--reset"
         onClick={onReset}
-        disabled={!hasProgress}
+        disabled={!hasProgress || phase === "won"}
       >
         Reset
       </button>
