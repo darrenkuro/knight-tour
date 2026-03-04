@@ -4,7 +4,7 @@ import "./GameStatus.css";
 
 type GameStatusProps = {
   state: GameState;
-  elapsed: number;
+  elapsed: number | null;
 };
 
 const phaseMessages: Record<GamePhase, string> = {
@@ -30,7 +30,9 @@ export const GameStatus = ({ state, elapsed }: GameStatusProps) => {
 
       {state.phase !== "idle" && (
         <>
-          <div className="game-status__timer">{formatTime(elapsed)}</div>
+          {elapsed !== null && (
+            <div className="game-status__timer">{formatTime(elapsed)}</div>
+          )}
           <div className="game-status__progress">
             <div className="game-status__progress-label">
               <span>Progress</span>

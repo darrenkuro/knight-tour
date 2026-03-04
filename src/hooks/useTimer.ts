@@ -17,11 +17,16 @@ export const useTimer = () => {
   }, []);
 
   const start = useCallback(() => {
-    if (intervalRef.current !== null) return; // already running
+    // Clear any stale interval first (e.g. after StrictMode remount)
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
+    }
     startTimeRef.current = Date.now();
     setElapsed(0);
     intervalRef.current = setInterval(() => {
-      setElapsed(Date.now() - startTimeRef.current!);
+      if (startTimeRef.current !== null) {
+        setElapsed(Date.now() - startTimeRef.current);
+      }
     }, 100);
   }, []);
 
@@ -34,15 +39,16 @@ export const useTimer = () => {
     setElapsed(0);
   }, []);
 
-  const isRunning = intervalRef.current !== null;
-
   useEffect(() => {
     return () => {
-      if (intervalRef.current !== null) clearInterval(intervalRef.current);
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     };
   }, []);
 
-  return { elapsed, isRunning, start, stop, reset };
+  return { elapsed, start, stop, reset };
 };
 
 export const formatTime = (ms: number): string => {

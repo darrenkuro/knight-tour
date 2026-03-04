@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import type { BoardSize, BoardTheme } from "./types";
 import { DEFAULT_THEME } from "./themes";
 import { useKnightTour } from "./hooks/useKnightTour";
@@ -34,18 +34,26 @@ export const App = () => {
   const handleSetSize = useCallback(
     (size: BoardSize) => {
       setSize(size);
-      timer.reset();
-      timer.start();
+      if (!isTutorial) {
+        timer.reset();
+        timer.start();
+      }
     },
     [setSize, timer],
   );
 
   const handleSquareClick = (index: number) => {
     if (state.phase === "idle") {
-      if (!timer.isRunning) timer.start();
+      if (!isTutorial) timer.start();
       placeKnight(index);
     } else if (state.phase === "playing" && validMoves.includes(index)) {
+      const isWinningMove =
+        state.moveCount + 1 === state.boardSize * state.boardSize;
       moveKnight(index);
+      if (isWinningMove && !isTutorial) {
+        timer.stop();
+        setShowWinModal(true);
+      }
     }
   };
 
@@ -54,14 +62,6 @@ export const App = () => {
     timer.reset();
     setShowWinModal(false);
   }, [reset, timer]);
-
-  useEffect(() => {
-    if (state.phase === "won") {
-      timer.stop();
-      if (!isTutorial) setShowWinModal(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.phase]);
 
   return (
     <div className="app">
@@ -74,7 +74,7 @@ export const App = () => {
         onSquareClick={handleSquareClick}
       />
       <div className="app__sidebar">
-        <GameStatus state={state} elapsed={timer.elapsed} />
+        <GameStatus state={state} elapsed={isTutorial ? null : timer.elapsed} />
         {state.phase === "idle" && (
           <SizeSelector current={state.boardSize} onSelect={handleSetSize} />
         )}
