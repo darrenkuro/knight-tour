@@ -34,12 +34,8 @@ export const App = () => {
   const handleSetSize = useCallback(
     (size: BoardSize) => {
       setSize(size);
-      if (!isTutorial) {
-        timer.reset();
-        timer.start();
-      }
     },
-    [setSize, timer],
+    [setSize],
   );
 
   const handleSquareClick = (index: number) => {
@@ -58,6 +54,11 @@ export const App = () => {
   };
 
   const handleReset = useCallback(() => {
+    reset();
+    setShowWinModal(false);
+  }, [reset]);
+
+  const handleQuit = useCallback(() => {
     reset();
     timer.reset();
     setShowWinModal(false);
@@ -83,6 +84,7 @@ export const App = () => {
           canUndo={state.moveHistory.length > 0}
           onUndo={undo}
           onReset={handleReset}
+          onQuit={handleQuit}
         />
         <ThemeSelector current={theme} onSelect={setTheme} />
       </div>

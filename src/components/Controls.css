@@ -33,3 +33,12 @@
 .controls__btn--reset:hover:not(:disabled) {
   background: rgba(239, 83, 80, 0.1);
 }
+
+.controls__btn--quit {
+  border-color: var(--text-dim);
+  color: var(--text-dim);
+}
+
+.controls__btn--quit:hover:not(:disabled) {
+  background: rgba(138, 138, 154, 0.1);
+}

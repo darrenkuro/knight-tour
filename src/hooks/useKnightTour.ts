@@ -203,7 +203,7 @@ type UseKnightTourOptions = {
 export const useKnightTour = ({ initialHintEnabled = false }: UseKnightTourOptions = {}) => {
   const [state, dispatch] = useReducer(
     reducer,
-    createInitialState(8 as BoardSize, initialHintEnabled),
+    createInitialState(5 as BoardSize, initialHintEnabled),
   );
 
   const validMoves = useMemo(() => {

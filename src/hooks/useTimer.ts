@@ -5,6 +5,27 @@ export const useTimer = () => {
   const startTimeRef = useRef<number | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const ensureInterval = useCallback(() => {
+    if (intervalRef.current !== null) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      if (startTimeRef.current !== null) {
+        setElapsed(Date.now() - startTimeRef.current);
+      }
+    }, 100);
+  }, []);
+
+  const start = useCallback(() => {
+    if (startTimeRef.current !== null) {
+      // Already timing — just ensure interval is alive
+      // (may have been cleared by StrictMode effect cleanup)
+      ensureInterval();
+      return;
+    }
+    startTimeRef.current = Date.now();
+    setElapsed(0);
+    ensureInterval();
+  }, [ensureInterval]);
+
   const stop = useCallback(() => {
     if (intervalRef.current !== null) {
       clearInterval(intervalRef.current);
@@ -14,20 +35,6 @@ export const useTimer = () => {
       setElapsed(Date.now() - startTimeRef.current);
       startTimeRef.current = null;
     }
-  }, []);
-
-  const start = useCallback(() => {
-    // Clear any stale interval first (e.g. after StrictMode remount)
-    if (intervalRef.current !== null) {
-      clearInterval(intervalRef.current);
-    }
-    startTimeRef.current = Date.now();
-    setElapsed(0);
-    intervalRef.current = setInterval(() => {
-      if (startTimeRef.current !== null) {
-        setElapsed(Date.now() - startTimeRef.current);
-      }
-    }, 100);
   }, []);
 
   const reset = useCallback(() => {
