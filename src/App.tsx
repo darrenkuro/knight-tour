@@ -76,7 +76,7 @@ export const App = () => {
       />
       <div className="app__sidebar">
         <GameStatus state={state} elapsed={isTutorial ? null : timer.elapsed} />
-        {state.phase === "idle" && (
+        {state.phase === "idle" && timer.elapsed === 0 && (
           <SizeSelector current={state.boardSize} onSelect={handleSetSize} />
         )}
         <Controls
