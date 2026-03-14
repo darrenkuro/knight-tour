@@ -3,5 +3,8 @@
   "installCommand": "pnpm install",
   "rewrites": [
     { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ],
+  "crons": [
+    { "path": "/api/leaderboard?size=5", "schedule": "0 0 */3 * *" }
   ]
 }
