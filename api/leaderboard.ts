@@ -12,7 +12,7 @@ const redis = Redis.fromEnv();
 
 const ratelimit = new Ratelimit({
   redis,
-  limiter: Ratelimit.slidingWindow(3, "10 m"),
+  limiter: Ratelimit.slidingWindow(5, "1 m"),
   prefix: "ratelimit:leaderboard",
 });
 

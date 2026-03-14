@@ -4,6 +4,15 @@ import { formatTime } from "../hooks/useTimer";
 import { Leaderboard } from "./Leaderboard";
 import "./WinModal.css";
 
+const SUBMISSION_LIMIT = 5;
+const STORAGE_KEY = "leaderboard_submissions";
+
+const getSubmissionCount = () =>
+  Number(sessionStorage.getItem(STORAGE_KEY) || "0");
+
+const incrementSubmissionCount = () =>
+  sessionStorage.setItem(STORAGE_KEY, String(getSubmissionCount() + 1));
+
 type WinModalProps = {
   elapsed: number;
   boardSize: BoardSize;
@@ -15,12 +24,17 @@ export const WinModal = ({ elapsed, boardSize, onClose }: WinModalProps) => {
   const [entries, setEntries] = useState<LeaderboardEntry[] | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [limitReached, setLimitReached] = useState(
+    getSubmissionCount() >= SUBMISSION_LIMIT,
+  );
 
   const handleSubmit = async () => {
     const trimmed = name.trim();
     if (trimmed.length === 0 || trimmed.length > 20) return;
 
     setSubmitting(true);
+    setError("");
     try {
       const res = await fetch("/api/leaderboard", {
         method: "POST",
@@ -31,6 +45,11 @@ export const WinModal = ({ elapsed, boardSize, onClose }: WinModalProps) => {
         const data = (await res.json()) as LeaderboardEntry[];
         setEntries(data);
         setSubmitted(true);
+        incrementSubmissionCount();
+        if (getSubmissionCount() >= SUBMISSION_LIMIT) setLimitReached(true);
+      } else if (res.status === 429) {
+        setError("Too many submissions — take a breather!");
+        setLimitReached(true);
       }
     } catch {
       // Silently fail — leaderboard is non-critical
@@ -50,7 +69,21 @@ export const WinModal = ({ elapsed, boardSize, onClose }: WinModalProps) => {
         <div className="win-modal__time">{formatTime(elapsed)}</div>
         <p className="win-modal__board">{boardSize}&times;{boardSize} board</p>
 
-        {!submitted ? (
+        {error && <p className="win-modal__error">{error}</p>}
+
+        {submitted ? (
+          entries && (
+            <Leaderboard
+              entries={entries}
+              playerTime={elapsed}
+              playerName={name.trim()}
+            />
+          )
+        ) : limitReached ? (
+          <p className="win-modal__limit">
+            Submission limit reached — try again next session!
+          </p>
+        ) : (
           <div className="win-modal__form">
             <input
               className="win-modal__input"
@@ -72,14 +105,6 @@ export const WinModal = ({ elapsed, boardSize, onClose }: WinModalProps) => {
               {submitting ? "Submitting…" : "Submit Score"}
             </button>
           </div>
-        ) : (
-          entries && (
-            <Leaderboard
-              entries={entries}
-              playerTime={elapsed}
-              playerName={name.trim()}
-            />
-          )
         )}
       </div>
     </div>
